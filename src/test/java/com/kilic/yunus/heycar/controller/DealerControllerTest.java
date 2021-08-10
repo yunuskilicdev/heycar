@@ -2,6 +2,7 @@ package com.kilic.yunus.heycar.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kilic.yunus.heycar.dto.ListingDto;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +44,9 @@ class DealerControllerTest {
         }
     }
 
+    @SneakyThrows
     @BeforeEach
-    void Setup() throws IOException {
+    void Setup() {
         validSkodaRed = new ListingDto("1", "Skoda", "Octavia", 86L, 2015L, "red", 20000L);
         validSkodaBlue = new ListingDto("1", "Skoda", "Octavia", 86L, 2015L, "blue", 20000L);
 
@@ -55,8 +57,9 @@ class DealerControllerTest {
                 new ClassPathResource("invalid.csv").getInputStream());
     }
 
+    @SneakyThrows
     @Test
-    void successful_valid_dealer() throws Exception {
+    void successful_valid_dealer() {
 
         ListingDto[] listingDtos = {validSkodaRed};
         mockMvc.perform(post("/dealer/vehicle_listings/{dealerId}", validDealerId).content(asJsonString(listingDtos)).contentType(MediaType.APPLICATION_JSON))
@@ -64,29 +67,33 @@ class DealerControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
+    @SneakyThrows
     @Test
-    void error_invalid_dealer() throws Exception {
+    void error_invalid_dealer() {
 
         ListingDto[] listingDtos = {validSkodaRed, validSkodaBlue};
         mockMvc.perform(post("/dealer/vehicle_listings/{dealerId}", invalidDealerId).content(asJsonString(listingDtos)).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 
+    @SneakyThrows
     @Test
-    void invalid_body_throw_constraint_exception() throws Exception {
+    void invalid_body_throw_constraint_exception() {
         mockMvc.perform(post("/dealer/vehicle_listings/{dealerId}", validDealerId).content(invalidListingDto).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException));
     }
 
+    @SneakyThrows
     @Test
     void successful_csv() throws Exception {
         mockMvc.perform(multipart("/dealer/upload_csv/{dealerId}", validDealerId).file(validCsv))
                 .andExpect(status().isOk());
     }
 
+    @SneakyThrows
     @Test
-    void fail_csv() throws Exception {
+    void fail_csv() {
         mockMvc.perform(multipart("/dealer/upload_csv/{dealerId}", validDealerId).file(inValidCsv))
                 .andExpect(status().isBadRequest());
     }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kilic.yunus.heycar.model.Dealer;
 import com.kilic.yunus.heycar.model.Listing;
 import com.kilic.yunus.heycar.repository.ListingRepository;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,8 +61,9 @@ public class ListingControllerTest {
         setupCompleted = true;
     }
 
+    @SneakyThrows
     @Test
-    public void search_red_cars() throws Exception {
+    public void search_red_cars() {
         mockMvc.perform(get("/listing/search").param("color", "red"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -69,8 +71,9 @@ public class ListingControllerTest {
 
     }
 
+    @SneakyThrows
     @Test
-    public void search_blue_cars() throws Exception {
+    public void search_blue_cars(){
         mockMvc.perform(get("/listing/search").param("color", "blue"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -78,8 +81,9 @@ public class ListingControllerTest {
 
     }
 
+    @SneakyThrows
     @Test
-    public void search_opel_cars() throws Exception {
+    public void search_opel_cars(){
         mockMvc.perform(get("/listing/search").param("make", "Opel"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -87,8 +91,9 @@ public class ListingControllerTest {
 
     }
 
+    @SneakyThrows
     @Test
-    public void search_corolla_cars() throws Exception {
+    public void search_corolla_cars(){
         mockMvc.perform(get("/listing/search").param("model", "Corolla"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -96,8 +101,9 @@ public class ListingControllerTest {
 
     }
 
+    @SneakyThrows
     @Test
-    public void search_twothousandseventeen_cars() throws Exception {
+    public void search_twothousandseventeen_cars() {
         mockMvc.perform(get("/listing/search").param("year", "2017"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
